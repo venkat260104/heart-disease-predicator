@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f7f8" />
+  <title>CardioCare | Heart Health Assessment</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18313a;
+      --muted: #657a81;
+      --line: #e2eaec;
+      --paper: #ffffff;
+      --canvas: #f3f7f7;
+      --teal: #087f82;
+      --teal-dark: #066568;
+      --teal-pale: #e8f5f3;
+      --coral: #e66d63;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    .topbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(24px, calc((100vw - 1160px) / 2));
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      font-size: 1.05rem;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: white;
+      background: var(--teal);
+      font-size: 1.15rem;
+    }
+
+    .secure-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .secure-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #43a67b;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 40px));
+      margin: 44px auto 56px;
+    }
+
+    .page-heading { margin-bottom: 25px; }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--teal);
+      font-size: 0.75rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(1.8rem, 3vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .form-card,
+    .info-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 8px 28px rgba(24, 49, 58, 0.045);
+    }
+
+    .form-card { padding: 27px 30px 24px; }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .section-number {
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: var(--teal-dark);
+      background: var(--teal-pale);
+      font-size: 0.85rem;
+      font-weight: 750;
+    }
+
+    h2 { margin: 1px 0 3px; font-size: 1.02rem; font-weight: 700; }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 19px 16px;
+    }
+
+    .field {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 6px;
+      color: #314b54;
+      font-size: 0.84rem;
+      font-weight: 650;
+    }
+
+    .field input {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border: 1px solid #d5e0e3;
+      border-radius: 9px;
+      outline: none;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.95rem;
+      font-weight: 450;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .field input:hover { border-color: #a8bec2; }
+    .field input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(8, 127, 130, 0.12);
+    }
+
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 27px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .form-note { margin: 0; color: var(--muted); font-size: 0.79rem; }
+
+    button {
+      min-height: 45px;
+      flex: 0 0 auto;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--teal);
+      color: #fff;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.16s ease, transform 0.16s ease;
+    }
+
+    button:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    button:focus-visible { outline: 3px solid rgba(8, 127, 130, 0.25); outline-offset: 3px; }
+
+    .info-card { overflow: hidden; }
+
+    .info-banner {
+      min-height: 150px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 19px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(9, 54, 65, 0.03), rgba(9, 54, 65, 0.78)),
+        radial-gradient(ellipse at 72% 25%, rgba(234, 123, 108, 0.9), transparent 18%),
+        radial-gradient(ellipse at 73% 45%, rgba(244, 185, 167, 0.55), transparent 31%),
+        linear-gradient(135deg, #dcefeb, #80b5ad 50%, #235f69);
+    }
+
+    .medical-art { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.72; }
+    .banner-caption {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-size: 0.83rem;
+      font-weight: 650;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-content { padding: 20px; }
+    .info-content h2 { margin: 0 0 8px; font-size: 1rem; }
+    .info-content p { margin: 0; color: var(--muted); font-size: 0.84rem; }
+
+    .disclaimer {
+      margin-top: 17px;
+      padding: 12px 13px;
+      border-left: 3px solid var(--coral);
+      border-radius: 0 8px 8px 0;
+      background: #fff5f3;
+      color: #78514c;
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+
+    .result {
+      margin: 0 0 20px;
+      padding: 14px 16px;
+      border: 1px solid #b9ded2;
+      border-radius: 10px;
+      background: #edf8f3;
+      color: #205b45;
+      font-size: 0.96rem;
+      font-weight: 650;
+    }
+
+    @media (max-width: 850px) {
+      .layout { grid-template-columns: 1fr; }
+      .info-card { display: grid; grid-template-columns: minmax(180px, 0.8fr) 1fr; }
+      .info-banner { min-height: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .topbar { height: 62px; padding: 0 18px; }
+      main { width: min(100% - 28px, 540px); margin: 30px auto 38px; }
+      .form-card { padding: 22px 18px 19px; }
+      .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+      .info-card { display: block; }
+      .info-banner { min-height: 140px; }
+      .form-footer { align-items: stretch; flex-direction: column; }
+      button { width: 100%; }
+    }
+
+    @media (max-width: 380px) {
+      .fields { grid-template-columns: 1fr; }
+      .secure-label { font-size: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">+</span><span>CardioCare</span></div>
+    <div class="secure-label"><span class="secure-dot"></span>Health assessment</div>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <p class="eyebrow">Heart health</p>
+      <h1>Risk assessment</h1>
+      <p class="lead">Enter the patient's clinical measurements to generate a model-based assessment.</p>
+    </section>
+
+    <div class="layout">
+      <section class="form-card" aria-labelledby="details-title">
+        <div class="section-heading">
+          <span class="section-number">01</span>
+          <div><h2 id="details-title">Patient &amp; clinical details</h2><p>Use the values recorded during the patient's examination.</p></div>
+        </div>
+
+        <form action="/predict" method="post">
+          <div class="fields">
+            <label class="field">Age (years)<input type="number" name="age" value="52" required></label>
+            <label class="field">Sex (0 or 1)<input type="number" name="sex" value="1" required></label>
+            <label class="field">Chest pain type (0–3)<input type="number" name="cp" value="0" required></label>
+            <label class="field">Resting blood pressure<input type="number" name="trestbps" value="125" required></label>
+            <label class="field">Cholesterol<input type="number" name="chol" value="212" required></label>
+            <label class="field">Fasting blood sugar (0 or 1)<input type="number" name="fbs" value="0" required></label>
+            <label class="field">Resting ECG (0–2)<input type="number" name="restecg" value="1" required></label>
+            <label class="field">Maximum heart rate<input type="number" name="thalach" value="168" required></label>
+            <label class="field">Exercise angina (0 or 1)<input type="number" name="exang" value="0" required></label>
+            <label class="field">ST depression<input type="number" name="oldpeak" value="1.0" step="any" required></label>
+            <label class="field">ST segment slope (0–2)<input type="number" name="slope" value="2" required></label>
+            <label class="field">Major vessels (0–4)<input type="number" name="ca" value="2" required></label>
+            <label class="field">Thalassemia value<input type="number" name="thal" value="3" required></label>
+          </div>
+          <div class="form-footer">
+            <p class="form-note">All fields are required. Use the coding scheme expected by the model.</p>
+            <button type="submit">Generate assessment</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="info-card">
+        <div class="info-banner" role="img" aria-label="Abstract medical illustration of a heart and ECG line">
+          <svg class="medical-art" viewBox="0 0 320 170" aria-hidden="true">
+            <path d="M0 100h78l14-2 10-13 11 28 14-48 14 73 16-43 10 5h30" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M212 81c-8-13-28-10-31 7-4 21 31 42 31 42s35-21 31-42c-3-17-23-20-31-7z" fill="rgba(231,109,99,.76)" stroke="rgba(255,255,255,.72)" stroke-width="1.5"/>
+            <path d="M212 89v15h10l6-9 6 17 6-11h7" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="banner-caption">A clearer view of heart health</span>
+        </div>
+        <div class="info-content">
+          <h2>About this assessment</h2>
+          <p>This tool uses patient measurements to return a prediction from a trained machine-learning model.</p>
+          <div class="disclaimer">For educational use only. This result is not a diagnosis or substitute for advice from a qualified healthcare professional.</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
